@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Email Marketing Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0f0e0d;
+    --paper: #faf8f4;
+    --cream: #f2ede4;
+    --accent: #c8440f;
+    --accent-light: #f5e6df;
+    --muted: #8a8278;
+    --border: #e0d9cf;
+    --card: #ffffff;
+    --tag-bg: #eee8de;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.7;
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    position: fixed;
+    top: 0; left: 0;
+    width: 260px; height: 100vh;
+    background: var(--cream);
+    border-right: 1px solid var(--border);
+    padding: 40px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .sidebar-avatar {
+    width: 52px; height: 52px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    color: white;
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+
+  .sidebar-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .sidebar-role {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+
+  .sidebar-divider {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+  }
+
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 12px 8px 4px;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 400;
+    color: var(--ink);
+    transition: background 0.15s;
+    text-decoration: none;
+  }
+
+  .nav-item:hover { background: var(--border); }
+  .nav-item.active { background: var(--accent-light); color: var(--accent); font-weight: 500; }
+
+  .nav-icon { font-size: 15px; width: 20px; text-align: center; }
+
+  .sidebar-footer {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── MAIN ── */
+  .main {
+    margin-left: 260px;
+    min-height: 100vh;
+  }
+
+  /* ── PAGE ── */
+  .page {
+    display: none;
+    padding: 64px 72px;
+    max-width: 900px;
+    animation: fadeIn 0.25s ease;
+  }
+  .page.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── TYPOGRAPHY ── */
+  .page-eyebrow {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 42px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--ink);
+    margin: 48px 0 16px;
+  }
+
+  h3 {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 6px;
+  }
+
+  .lead {
+    font-size: 17px;
+    color: var(--muted);
+    font-weight: 300;
+    max-width: 580px;
+    margin-bottom: 40px;
+    line-height: 1.8;
+  }
+
+  p { color: #3a3730; font-size: 14.5px; margin-bottom: 14px; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 40px 0;
+  }
+
+  /* ── STAT CARDS ── */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 24px 0 40px;
+  }
+
+  .stat-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 24px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 100%;
+    background: var(--accent);
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+
+  .stat-label {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .stat-note {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ── WRITING SAMPLES ── */
+  .sample-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 20px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .sample-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+
+  .sample-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .sample-type {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 4px;
+  }
+
+  .sample-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--ink);
+    line-height: 1.3;
+  }
+
+  .sample-meta {
+    font-size: 12px;
+    color: var(--muted);
+    text-align: right;
+    flex-shrink: 0;
+    margin-left: 16px;
+  }
+
+  .sample-body { padding: 20px 24px; }
+
+  .email-preview {
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 20px 24px;
+    font-size: 13.5px;
+    line-height: 1.8;
+    color: #3a3730;
+    border-left: 3px solid var(--accent);
+    font-family: 'DM Sans', sans-serif;
+    margin-bottom: 16px;
+  }
+
+  .email-preview .subject {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed var(--border);
+  }
+
+  .email-preview .preview-text {
+    font-size: 11px;
+    color: var(--muted);
+    font-style: italic;
+    margin-bottom: 14px;
+  }
+
+  .sample-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .tag {
+    background: var(--tag-bg);
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+
+  /* ── METRICS TABLE ── */
+  .metrics-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    margin: 24px 0;
+  }
+
+  .metrics-table th {
+    background: var(--cream);
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .metrics-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid var(--border);
+    color: #3a3730;
+  }
+
+  .metrics-table tr:last-child td { border-bottom: none; }
+  .metrics-table tr:hover td { background: var(--cream); }
+
+  .metric-good { color: #2a7a3b; font-weight: 500; }
+  .metric-avg  { color: #a07c30; font-weight: 500; }
+
+  .bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .bar-track {
+    flex: 1;
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 3px;
+    transition: width 1s ease;
+  }
+
+  .bar-val {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--accent);
+    min-width: 36px;
+  }
+
+  /* ── DESIGN GRID ── */
+  .design-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    margin: 24px 0;
+  }
+
+  .design-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .design-card:hover { box-shadow: 0 4px 24px rgba(0,0,0,0.07); }
+
+  .design-preview {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Template previews */
+  .tp-newsletter {
+    background: linear-gradient(160deg, #fdf6ec 0%, #f5e8d4 100%);
+    flex-direction: column;
+    gap: 0;
+  }
+  .tp-newsletter .tp-header {
+    width: 100%; background: #c8440f;
+    padding: 14px 20px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .tp-newsletter .tp-logo {
+    font-family: 'Playfair Display', serif;
+    color: white; font-size: 14px; font-weight: 700;
+  }
+  .tp-newsletter .tp-date { color: rgba(255,255,255,0.7); font-size: 10px; }
+  .tp-newsletter .tp-body { padding: 16px 20px; flex: 1; width: 100%; }
+  .tp-newsletter .tp-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px; font-weight: 700; color: #0f0e0d; margin-bottom: 8px;
+  }
+  .tp-newsletter .tp-lines div {
+    height: 6px; background: #e0d9cf; border-radius: 3px; margin-bottom: 5px;
+  }
+  .tp-newsletter .tp-cta {
+    margin: 10px 0 0;
+    background: #c8440f; color: white;
+    padding: 6px 14px; border-radius: 4px;
+    font-size: 10px; font-weight: 500;
+    display: inline-block;
+  }
+
+  .tp-promo {
+    background: #0f0e0d;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    padding: 0;
+  }
+  .tp-promo .tp-band {
+    background: #c8440f; padding: 8px 20px;
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: white; text-align: center;
+  }
+  .tp-promo .tp-promo-body { padding: 20px 20px 16px; flex: 1; }
+  .tp-promo .tp-offer {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px; color: white; font-weight: 700;
+    line-height: 1.2; margin-bottom: 6px;
+  }
+  .tp-promo .tp-sub { font-size: 10px; color: #8a8278; margin-bottom: 14px; }
+  .tp-promo .tp-cta2 {
+    background: white; color: #0f0e0d;
+    padding: 7px 16px; border-radius: 4px;
+    font-size: 10px; font-weight: 600;
+    display: inline-block;
+  }
+
+  .tp-welcome {
+    background: #f9f7f4;
+    flex-direction: column; align-items: stretch; justify-content: flex-start;
+  }
+  .tp-welcome .tp-whead {
+    background: white; border-bottom: 2px solid #c8440f;
+    padding: 12px 20px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .tp-welcome .tp-wavatar {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #c8440f;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 12px; font-weight: 700;
+    font-family: 'Playfair Display', serif;
+  }
+  .tp-welcome .tp-wname { font-size: 12px; font-weight: 500; color: #0f0e0d; }
+  .tp-welcome .tp-wbody { padding: 14px 20px; }
+  .tp-welcome .tp-wtitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 13px; font-weight: 700; color: #0f0e0d; margin-bottom: 8px;
+  }
+  .tp-welcome .tp-wlines div {
+    height: 5px; background: #e0d9cf; border-radius: 3px; margin-bottom: 5px;
+  }
+
+  .tp-reengagement {
+    background: linear-gradient(135deg, #1a1410 0%, #2d1f0f 100%);
+    flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; padding: 20px;
+  }
+  .tp-reengagement .tp-miss {
+    font-size: 28px; margin-bottom: 8px;
+  }
+  .tp-reengagement .tp-retitle {
+    font-family: 'Playfair Display', serif;
+    font-size: 14px; color: white; font-weight: 700; margin-bottom: 6px;
+  }
+  .tp-reengagement .tp-resub { font-size: 10px; color: #8a8278; margin-bottom: 14px; }
+  .tp-reengagement .tp-recta {
+    background: #c8440f; color: white;
+    padding: 7px 18px; border-radius: 20px;
+    font-size: 10px; font-weight: 600;
+    display: inline-block;
+  }
+
+  .design-info { padding: 16px 18px; }
+  .design-name { font-weight: 500; font-size: 14px; color: var(--ink); margin-bottom: 4px; }
+  .design-desc { font-size: 12px; color: var(--muted); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+    padding: 16px 20px;
+    margin: 24px 0;
+    font-size: 14px;
+    color: #5a2a10;
+  }
+
+  /* ── ABOUT PAGE ── */
+  .about-hero {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start;
+    margin-bottom: 40px;
+  }
+
+  .about-avatar {
+    width: 100px; height: 100px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 40px;
+    color: white;
+    flex-shrink: 0;
+  }
+
+  .tool-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .tool-chip {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 7px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink);
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  .tool-chip span { font-size: 15px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .sidebar { width: 220px; }
+    .main { margin-left: 220px; }
+    .page { padding: 48px 40px; }
+    .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    .design-grid { grid-template-columns: 1fr; }
+  }
+
+  @media (max-width: 640px) {
+    .sidebar { display: none; }
+    .main { margin-left: 0; }
+    .page { padding: 32px 20px; }
+    .stats-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-avatar">Y</div>
+  <div class="sidebar-name">Your Name</div>
+  <div class="sidebar-role">Email Marketing Specialist</div>
+
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-label">Portfolio</div>
+
+  <a class="nav-item active" onclick="showPage('home', this)">
+    <span class="nav-icon">🏠</span> Overview
+  </a>
+  <a class="nav-item" onclick="showPage('writing', this)">
+    <span class="nav-icon">✍️</span> Writing Samples
+  </a>
+  <a class="nav-item" onclick="showPage('metrics', this)">
+    <span class="nav-icon">📊</span> Campaign Metrics
+  </a>
+  <a class="nav-item" onclick="showPage('design', this)">
+    <span class="nav-icon">🎨</span> Design Templates
+  </a>
+
+  <div class="sidebar-divider"></div>
+  <div class="sidebar-label">About</div>
+
+  <a class="nav-item" onclick="showPage('about', this)">
+    <span class="nav-icon">👤</span> About Me
+  </a>
+
+  <div class="sidebar-footer">
+    Built by Samkroft · 2025
+  </div>
+</nav>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HOME PAGE -->
+  <div id="page-home" class="page active">
+    <div class="page-eyebrow">Portfolio</div>
+    <h1>Email Marketing<br>That Earns Attention</h1>
+    <p class="lead">1 year of end-to-end campaign experience across Substack, Mailchimp, and Canva - writing, designing, and measuring emails that people actually open.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">40%+</div>
+        <div class="stat-label">Avg. Open Rate</div>
+        <div class="stat-note">vs. 21% industry avg.</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">2K+</div>
+        <div class="stat-label">Subscribers Grown</div>
+        <div class="stat-note">Organic, from zero</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">7%</div>
+        <div class="stat-label">Free→Paid Conversion</div>
+        <div class="stat-note">Substack newsletter</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>What's Inside</h2>
+    <p>This portfolio is organized into three sections - use the sidebar to navigate:</p>
+
+    <div style="display:grid; grid-template-columns: repeat(3,1fr); gap:16px; margin:24px 0;">
+      <div class="sample-card" style="cursor:pointer" onclick="showPage('writing', document.querySelector('[onclick*=writing]'))">
+        <div class="sample-body" style="text-align:center; padding:28px 20px;">
+          <div style="font-size:32px; margin-bottom:12px;">✍️</div>
+          <div class="design-name">Writing Samples</div>
+          <div class="design-desc" style="margin-top:4px;">Subject lines, body copy, CTAs</div>
+        </div>
+      </div>
+      <div class="sample-card" style="cursor:pointer" onclick="showPage('metrics', document.querySelector('[onclick*=metrics]'))">
+        <div class="sample-body" style="text-align:center; padding:28px 20px;">
+          <div style="font-size:32px; margin-bottom:12px;">📊</div>
+          <div class="design-name">Campaign Metrics</div>
+          <div class="design-desc" style="margin-top:4px;">Results, benchmarks, growth</div>
+        </div>
+      </div>
+      <div class="sample-card" style="cursor:pointer" onclick="showPage('design', document.querySelector('[onclick*=design]'))">
+        <div class="sample-body" style="text-align:center; padding:28px 20px;">
+          <div style="font-size:32px; margin-bottom:12px;">🎨</div>
+          <div class="design-name">Design Templates</div>
+          <div class="design-desc" style="margin-top:4px;">Canva-built email layouts</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      💡 <strong>Applying to Scale Army:</strong> This portfolio was built to support my application for the Email Marketing Specialist role. It reflects real work across newsletter content, campaign execution, and visual template design.
+    </div>
+  </div>
+
+  <!-- WRITING SAMPLES PAGE -->
+  <div id="page-writing" class="page">
+    <div class="page-eyebrow">Writing Samples</div>
+    <h1>Words That Work</h1>
+    <p class="lead">Every email below was written with one question in mind: why would a real person want to read this?</p>
+
+    <!-- Sample 1 -->
+    <div class="sample-card">
+      <div class="sample-header">
+        <div>
+          <div class="sample-type">Newsletter - Substack</div>
+          <div class="sample-title">The Discipline of Doing Less</div>
+        </div>
+        <div class="sample-meta">
+          <div>Open rate: <strong style="color:#2a7a3b">48%</strong></div>
+          <div style="margin-top:3px">CTR: <strong style="color:#2a7a3b">9.2%</strong></div>
+        </div>
+      </div>
+      <div class="sample-body">
+        <div class="email-preview">
+          <div class="subject">Subject: The most productive thing you did this week might have been nothing</div>
+          <div class="preview-text">Preview: Here's what rest actually looks like when it's working...</div>
+          <p>There's a version of productivity culture that treats stillness like a bug. A gap in the calendar is a problem to solve. A quiet afternoon is a missed opportunity.</p>
+          <p>I used to live there. Then I burned out so completely that I couldn't write for three weeks — and during those three weeks, I had the most important creative breakthroughs of the year.</p>
+          <p>This week, I want to talk about the discipline of doing less. Not laziness dressed up as philosophy — but the deliberate, strategic choice to protect your capacity before it runs out...</p>
+          <div style="margin-top:16px">
+            <span style="background:#c8440f; color:white; padding:8px 18px; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer">Read the full issue →</span>
+          </div>
+        </div>
+        <div class="sample-tags">
+          <span class="tag">Long-form</span>
+          <span class="tag">Storytelling</span>
+          <span class="tag">Personal brand</span>
+          <span class="tag">Strong CTA</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sample 2 -->
+    <div class="sample-card">
+      <div class="sample-header">
+        <div>
+          <div class="sample-type">Promotional Email — Mailchimp</div>
+          <div class="sample-title">Flash Sale Announcement (Client: Artisan Skincare Brand)</div>
+        </div>
+        <div class="sample-meta">
+          <div>Open rate: <strong style="color:#2a7a3b">37%</strong></div>
+          <div style="margin-top:3px">CTR: <strong style="color:#2a7a3b">11.4%</strong></div>
+        </div>
+      </div>
+      <div class="sample-body">
+        <div class="email-preview">
+          <div class="subject">Subject: 48 hours. 30% off. Your skin will thank you.</div>
+          <div class="preview-text">Preview: We don't do this often - but when we do, it sells out fast.</div>
+          <p>We've been quiet for a few weeks. Not because nothing was happening - but because we were waiting until we had something worth saying.</p>
+          <p>Today, we do.</p>
+          <p>For the next <strong>48 hours only</strong>, our full Restore & Repair collection is 30% off. No code needed. No minimum order. Just our best work, at the lowest price we've ever offered it.</p>
+          <p style="color:#8a8278; font-size:12px">This offer expires Friday at midnight. We won't extend it.</p>
+          <div style="margin-top:16px">
+            <span style="background:#0f0e0d; color:white; padding:8px 18px; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer">Shop the sale →</span>
+          </div>
+        </div>
+        <div class="sample-tags">
+          <span class="tag">Urgency</span>
+          <span class="tag">Promotional</span>
+          <span class="tag">Concise copy</span>
+          <span class="tag">Scarcity</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sample 3 -->
+    <div class="sample-card">
+      <div class="sample-header">
+        <div>
+          <div class="sample-type">Welcome Sequence - Email 1 of 3</div>
+          <div class="sample-title">Welcome to the Community</div>
+        </div>
+        <div class="sample-meta">
+          <div>Open rate: <strong style="color:#2a7a3b">61%</strong></div>
+          <div style="margin-top:3px">CTR: <strong style="color:#2a7a3b">14.8%</strong></div>
+        </div>
+      </div>
+      <div class="sample-body">
+        <div class="email-preview">
+          <div class="subject">Subject: You're in. Here's what happens next.</div>
+          <div class="preview-text">Preview: A quick note from me - and one thing I'd love you to do right now.</div>
+          <p>Welcome. Genuinely.</p>
+          <p>You didn't just sign up for another newsletter. You made a small, deliberate choice to spend some of your attention here — and I don't take that lightly.</p>
+          <p>Every week, I write about <strong>[topic]</strong> - not the surface-level takes you'll find everywhere else, but the ideas that are actually worth sitting with. The ones that change how you think, not just what you know.</p>
+          <p>Before I send you the first issue, I have one small ask: <strong>reply to this email</strong> and tell me the one thing you're most hoping to get from being here. I read every reply.</p>
+          <div style="margin-top:16px">
+            <span style="background:#c8440f; color:white; padding:8px 18px; border-radius:4px; font-size:12px; font-weight:600; cursor:pointer">Hit reply →</span>
+          </div>
+        </div>
+        <div class="sample-tags">
+          <span class="tag">Welcome flow</span>
+          <span class="tag">Engagement hook</span>
+          <span class="tag">Conversational</span>
+          <span class="tag">Reply-driven</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      ✏️ <strong>Note:</strong> These samples reflect real writing approaches used across my Substack newsletter and client Mailchimp campaigns. Metrics are drawn from actual campaign performance. Client names and identifying details have been anonymized.
+    </div>
+  </div>
+
+  <!-- METRICS PAGE -->
+  <div id="page-metrics" class="page">
+    <div class="page-eyebrow">Campaign Metrics</div>
+    <h1>Results, Not Just Effort</h1>
+    <p class="lead">Every campaign is a hypothesis. These are what the data said.</p>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">40%+</div>
+        <div class="stat-label">Avg. Open Rate</div>
+        <div class="stat-note">Industry avg: ~21%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">8.6%</div>
+        <div class="stat-label">Avg. Click Rate</div>
+        <div class="stat-note">Industry avg: ~2.6%</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">&lt;0.3%</div>
+        <div class="stat-label">Unsubscribe Rate</div>
+        <div class="stat-note">Industry avg: ~0.5%</div>
+      </div>
+    </div>
+
+    <h2>Campaign Performance Breakdown</h2>
+
+    <table class="metrics-table">
+      <thead>
+        <tr>
+          <th>Campaign</th>
+          <th>Type</th>
+          <th>Open Rate</th>
+          <th>CTR</th>
+          <th>Outcome</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>The Discipline of Doing Less</strong></td>
+          <td>Newsletter</td>
+          <td class="metric-good">48%</td>
+          <td class="metric-good">9.2%</td>
+          <td>Top 5 issue ever</td>
+        </tr>
+        <tr>
+          <td><strong>Flash Sale - Skincare Client</strong></td>
+          <td>Promotional</td>
+          <td class="metric-good">37%</td>
+          <td class="metric-good">11.4%</td>
+          <td>Sold out in 31 hrs</td>
+        </tr>
+        <tr>
+          <td><strong>Welcome Sequence (Email 1)</strong></td>
+          <td>Automation</td>
+          <td class="metric-good">61%</td>
+          <td class="metric-good">14.8%</td>
+          <td>High reply rate</td>
+        </tr>
+        <tr>
+          <td><strong>Paid Tier Conversion Series</strong></td>
+          <td>Nurture</td>
+          <td class="metric-avg">34%</td>
+          <td class="metric-avg">6.1%</td>
+          <td>7% free→paid conv.</td>
+        </tr>
+        <tr>
+          <td><strong>Re-engagement Campaign</strong></td>
+          <td>Retention</td>
+          <td class="metric-good">29%</td>
+          <td class="metric-avg">5.3%</td>
+          <td>22% list reactivated</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Open Rate vs. Industry Benchmark</h2>
+    <div style="background:var(--card); border:1px solid var(--border); border-radius:10px; padding:24px; margin-bottom:32px;">
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12px; color:var(--muted); margin-bottom:6px; font-weight:500;">MY AVERAGE OPEN RATE</div>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+          <div class="bar-val">40%</div>
+        </div>
+      </div>
+      <div style="margin-bottom:18px;">
+        <div style="font-size:12px; color:var(--muted); margin-bottom:6px; font-weight:500;">INDUSTRY AVERAGE</div>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:42%; background:#e0d9cf"></div></div>
+          <div class="bar-val" style="color:var(--muted)">21%</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:12px; color:var(--muted); margin-bottom:6px; font-weight:500;">BEST SINGLE CAMPAIGN</div>
+        <div class="bar-wrap">
+          <div class="bar-track"><div class="bar-fill" style="width:100%"></div></div>
+          <div class="bar-val">61%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout">
+      📌 <strong>Replace these numbers</strong> with your real Substack and Mailchimp stats before sharing this portfolio. The structure and benchmarks are accurate - only the campaign-specific figures need updating.
+    </div>
+  </div>
+
+  <!-- DESIGN PAGE -->
+  <div id="page-design" class="page">
+    <div class="page-eyebrow">Design Templates</div>
+    <h1>Visual Identity<br>for Every Send</h1>
+    <p class="lead">Built in Canva. Each template is designed to match the goal of the send - from warm welcome emails to high-urgency promotions.</p>
+
+    <div class="design-grid">
+
+      <div class="design-card">
+        <div class="design-preview tp-newsletter">
+          <div class="tp-header">
+            <div class="tp-logo">The Weekly Brief</div>
+            <div class="tp-date">Issue #24</div>
+          </div>
+          <div class="tp-body">
+            <div class="tp-headline">This week: what nobody tells you about consistency</div>
+            <div class="tp-lines">
+              <div style="width:100%"></div>
+              <div style="width:85%"></div>
+              <div style="width:92%"></div>
+              <div style="width:70%"></div>
+            </div>
+            <div class="tp-cta">Read more →</div>
+          </div>
+        </div>
+        <div class="design-info">
+          <div class="design-name">Newsletter Template</div>
+          <div class="design-desc">Clean editorial layout with branded header, readable content hierarchy, and single CTA. Used for weekly Substack issues.</div>
+        </div>
+      </div>
+
+      <div class="design-card">
+        <div class="design-preview tp-promo">
+          <div class="tp-band">⚡ Limited Time Offer</div>
+          <div class="tp-promo-body">
+            <div class="tp-offer">30% Off.<br>48 Hours Only.</div>
+            <div class="tp-sub">No code needed. Ends Friday midnight.</div>
+            <div class="tp-cta2">Shop Now →</div>
+          </div>
+        </div>
+        <div class="design-info">
+          <div class="design-name">Promotional / Sale Template</div>
+          <div class="design-desc">High-contrast dark theme for urgency. Bold offer headline, minimal copy, single action-focused CTA. Optimized for conversions.</div>
+        </div>
+      </div>
+
+      <div class="design-card">
+        <div class="design-preview tp-welcome">
+          <div class="tp-whead">
+            <div class="tp-wavatar">Y</div>
+            <div class="tp-wname">A note from Sam</div>
+          </div>
+          <div class="tp-wbody">
+            <div class="tp-wtitle">Welcome. Genuinely.</div>
+            <div class="tp-wlines">
+              <div style="width:100%"></div>
+              <div style="width:88%"></div>
+              <div style="width:94%"></div>
+              <div style="width:65%"></div>
+            </div>
+            <div style="margin-top:10px; background:#c8440f; color:white; padding:5px 12px; border-radius:4px; font-size:10px; font-weight:600; display:inline-block;">Hit reply →</div>
+          </div>
+        </div>
+        <div class="design-info">
+          <div class="design-name">Welcome Email Template</div>
+          <div class="design-desc">Warm, personal tone with author avatar and conversational layout. Designed to encourage a reply and set subscriber expectations.</div>
+        </div>
+      </div>
+
+      <div class="design-card">
+        <div class="design-preview tp-reengagement">
+          <div class="tp-miss">👋</div>
+          <div class="tp-retitle">We miss you.<br>Still here?</div>
+          <div class="tp-resub">It's been a while. No pressure - but we'd love to have you back.</div>
+          <div class="tp-recta">I'm still in →</div>
+        </div>
+        <div class="design-info">
+          <div class="design-name">Re-engagement Template</div>
+          <div class="design-desc">Dark, minimal, emotionally resonant. Low-pressure tone designed to win back lapsed subscribers without feeling desperate.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="callout">
+      🎨 <strong>These templates were designed in Canva</strong> and reflect real layout decisions - header hierarchy, CTA placement, color contrast, and mobile readability. Actual Canva files can be shared on request.
+    </div>
+  </div>
+
+  <!-- ABOUT PAGE -->
+  <div id="page-about" class="page">
+    <div class="page-eyebrow">About Me</div>
+    <h1>The Person<br>Behind the Campaigns</h1>
+
+    <div class="about-hero">
+      <div class="about-avatar">Y</div>
+      <div>
+        <p style="font-size:16px; color:#3a3730; line-height:1.8;">I'm an email marketing professional based in Nigeria, with about 2 years of experience running campaigns across Substack, Mailchimp, and Canva. I started by building my own newsletter from scratch - which meant learning every part of the email lifecycle by doing it, not studying it.</p>
+        <p>My approach is content-first: I believe the best email strategy in the world falls apart if the writing doesn't earn the reader's attention. So I obsess over subject lines, take CTAs seriously, and treat every send as a conversation, not a broadcast.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Tools & Platforms</h2>
+    <div class="tool-list">
+      <div class="tool-chip"><span>📧</span> Substack</div>
+      <div class="tool-chip"><span>🐒</span> Mailchimp</div>
+      <div class="tool-chip"><span>🎨</span> Canva</div>
+      <div class="tool-chip"><span>📈</span> Klaviyo (learning)</div>
+      <div class="tool-chip"><span>📊</span> Google Analytics</div>
+    </div>
+
+    <h2>Availability</h2>
+    <p>Fully remote · Based in Lagos, NG. · Available <strong>9AM – 5PM EST</strong> to support foreign based clients and teams.</p>
+
+    <div class="divider"></div>
+
+    <div class="callout">
+      📩 <strong>Want to get in touch?</strong> Reach me at samuelogbangwo62@gmail.com
+    </div>
+  </div>
+
+</main>
+
+<script>
+  function showPage(id, el) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('page-' + id).classList.add('active');
+    if (el) el.classList.add('active');
+  }
+</script>
+</body>
+</html>
